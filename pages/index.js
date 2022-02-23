@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import Button from '@mui/material/Button';
 
-const App: FC = () => {
+const App = () => {
     return (
         <div>
             'Hello, World!'
