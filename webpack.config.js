@@ -36,11 +36,16 @@ module.exports = {
             {
                 // .ts .tsx 파일들을 ts-loader 를 이용해 컴파일 하여 번들링 
                 test: /\.(ts|tsx)$/,
-                exclude: /node_modules/,
+                exclude:/(node_modules|bower_components)/,
+                loader: "babel-loader",
                 resolve: {
                     extensions: ['.ts', '.tsx', '.js', '.json'],
                 },
                 use: 'ts-loader',
+                options: { 
+                    // presets: ["@babel/env"],
+                    presets: ["@babel/env", "@babel/preset-react", "@babel/preset-typescript"]
+                  }
             },
             // {
             //     test: /\.s[ac]ss$/i,
