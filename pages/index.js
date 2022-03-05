@@ -1,12 +1,9 @@
 import React, { FC } from 'react';
-import Button from '@mui/material/Button';
+import EnrollRestaurant from './EnrollRestaurant/EnrollRestaurant';
 
 const App = () => {
     return (
-        <div>
-            'Hello, World!'
-            <Button variant='contained'>Button</Button>
-        </div>
+        <EnrollRestaurant />
     )
 }
 
