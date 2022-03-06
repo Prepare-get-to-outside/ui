@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import { useRouter } from 'next/router'
 import { GetServerSideProps } from 'next' //GetStaticPaths, GetServerSideProps
-import { Row, Col, Button, Input, Select, Slider, Switch, notification } from 'antd'
+import { Row, Col, Button, Input, notification, Select, Slider, Switch } from 'antd'
+import { Tag } from '@/components/elements/Tag'
 import { CardSection } from '@/components/frame/section/CardSection'
 import url from '@/constant/url'
 
@@ -40,7 +41,7 @@ export const RegisterPage = ({ data }: RegisterPageProps) => {
   const [priceRange, setPriceRange] = useState<[number, number]>([30000, 100000])
   const [isVisit, setIsVisit] = useState(false)
   const [shareList, setShareList] = useState([])
-  const [tags, setTags] = useState('')
+  const [tags, setTags] = useState<string[]>([])
   const [memo, setMemo] = useState('')
 
   const onRegister = () => {
@@ -57,6 +58,7 @@ export const RegisterPage = ({ data }: RegisterPageProps) => {
       })
     }
   }
+
   return (
     <Container>
       <Col flex={'1 1'}>
@@ -86,99 +88,64 @@ export const RegisterPage = ({ data }: RegisterPageProps) => {
           </Col>
           <Col flex="auto">
             <CardSection>
-              <CardRow>
-                <Col flex="100px">
-                  <Column>종류</Column>
-                </Col>
-                <Col flex="auto">
-                  <Select
-                    showSearch
-                    style={{ width: 200 }}
-                    placeholder="Search to Food"
-                    optionFilterProp="children"
-                    onChange={(value) => setKind(value)}
-                  >
-                    {foodKind.map((food, idx) => (
-                      <Select.Option key={`select_${idx}`} value={(idx + 1).toString()}>
-                        {food}
-                      </Select.Option>
-                    ))}
-                  </Select>
-                </Col>
-              </CardRow>
-              <CardRow>
-                <Col flex="100px">
-                  <Column>가격대</Column>
-                </Col>
-                <Col flex="auto">
-                  <Slider
-                    range
-                    marks={marks}
-                    value={priceRange}
-                    step={500}
-                    min={minMoney}
-                    max={maxMoney}
-                    onChange={(value) => setPriceRange(value)}
-                  />
-                </Col>
-              </CardRow>
-              <CardRow>
-                <Col flex="100px">
-                  <Column>방문여부</Column>
-                </Col>
-                <Col flex="auto">
-                  <Switch checked={isVisit} onChange={() => setIsVisit(!isVisit)} />
-                </Col>
-              </CardRow>
-              <CardRow>
-                <Col flex="100px">
-                  <Column>공유목록</Column>
-                </Col>
-                <Col flex="auto">
-                  <Select
-                    mode="multiple"
-                    style={{ width: '100%' }}
-                    placeholder="select list"
-                    defaultValue={shareList}
-                    onChange={(value) => {
-                      setShareList(value)
-                    }}
-                    optionLabelProp="label"
-                  >
-                    {list.map((name, idx) => (
-                      <Select.Option key={`select_${idx}`} value={name} label={name}>
-                        <div>{name}</div>
-                      </Select.Option>
-                    ))}
-                  </Select>
-                </Col>
-              </CardRow>
-              <CardRow>
-                <Col flex="100px">
-                  <Column>태그</Column>
-                </Col>
-                <Col flex="auto">
-                  <Input
-                    showCount
-                    maxLength={50}
-                    value={tags}
-                    onChange={(e) => setTags(e.target.value)}
-                  />
-                </Col>
-              </CardRow>
-              <CardRow>
-                <Col flex="100px">
-                  <Column>메모</Column>
-                </Col>
-                <Col flex="auto">
-                  <Input
-                    showCount
-                    maxLength={100}
-                    value={memo}
-                    onChange={(e) => setMemo(e.target.value)}
-                  />
-                </Col>
-              </CardRow>
+              <CardSection.Card title="종류">
+                <Select
+                  showSearch
+                  style={{ width: 200 }}
+                  placeholder="Search to Food"
+                  optionFilterProp="children"
+                  onChange={(value) => setKind(value)}
+                >
+                  {foodKind.map((food, idx) => (
+                    <Select.Option key={`select_${idx}`} value={(idx + 1).toString()}>
+                      {food}
+                    </Select.Option>
+                  ))}
+                </Select>
+              </CardSection.Card>
+              <CardSection.Card title="가격대">
+                <Slider
+                  range
+                  marks={marks}
+                  value={priceRange}
+                  step={500}
+                  min={minMoney}
+                  max={maxMoney}
+                  onChange={(value) => setPriceRange(value)}
+                />
+              </CardSection.Card>
+              <CardSection.Card title="방문여부">
+                <Switch checked={isVisit} onChange={() => setIsVisit(!isVisit)} />
+              </CardSection.Card>
+              <CardSection.Card title="공유목록">
+                <Select
+                  mode="multiple"
+                  style={{ width: '100%' }}
+                  placeholder="select list"
+                  defaultValue={shareList}
+                  onChange={(value) => {
+                    setShareList(value)
+                  }}
+                  optionLabelProp="label"
+                >
+                  {list.map((name, idx) => (
+                    <Select.Option key={`select_${idx}`} value={name} label={name}>
+                      <div>{name}</div>
+                    </Select.Option>
+                  ))}
+                </Select>
+              </CardSection.Card>
+              <CardSection.Card title="태그">
+                <Tag tags={tags} setTags={setTags} />
+              </CardSection.Card>
+              <CardSection.Card title="메모">
+                <Input
+                  showCount
+                  maxLength={100}
+                  value={memo}
+                  onChange={(e) => setMemo(e.target.value)}
+                />
+              </CardSection.Card>
             </CardSection>
           </Col>
         </Row>
@@ -191,8 +158,6 @@ export const RegisterPage = ({ data }: RegisterPageProps) => {
     </Container>
   )
 }
-
-const CardRow = styled(Row)``
 
 const Container = styled('div')`
   display: flex;

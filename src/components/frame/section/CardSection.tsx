@@ -1,7 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
-
+import { Row, Col } from 'antd'
 interface CardSectionProps {
+  children?: React.ReactNode
+}
+
+interface CardProps {
+  title: string
   children?: React.ReactNode
 }
 
@@ -10,6 +15,17 @@ export const CardSection = ({ children }: CardSectionProps) => {
     <BoxContainer>
       <BoxContent>{children}</BoxContent>
     </BoxContainer>
+  )
+}
+
+CardSection.Card = ({ title, children }: CardProps) => {
+  return (
+    <CardRow>
+      <Col flex="100px">
+        <Column>{title}</Column>
+      </Col>
+      <Col flex="auto">{children}</Col>
+    </CardRow>
   )
 }
 
@@ -29,4 +45,12 @@ const BoxContent = styled('div')`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+`
+
+const CardRow = styled(Row)``
+
+const Column = styled('h3')`
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 29px;
 `

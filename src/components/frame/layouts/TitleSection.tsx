@@ -57,16 +57,10 @@ const BackBtn = styled(Button)`
 
   & > span {
     font-size: 48px;
-    margin-right: 16px;
-    color: ${({ theme }) => theme.zzup.title};
     font-weight: 1000;
+    color: ${({ theme }) => theme.zzup.title};
+    margin-right: 16px;
   }
-`
-
-const BackIcon = styled(ArrowLeftOutlined)`
-  font-size: 48px;
-  margin-right: 16px;
-  color: ${({ theme }) => theme.zzup.title};
 `
 
 export default TitleSection
