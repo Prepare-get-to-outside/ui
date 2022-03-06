@@ -6,7 +6,10 @@ class Store {
     resName: string = "";
     mainAddr: string = "";
     detailAddr: string = "";
-    shareId: number = 0;
+    shareList: string[] = [];
+    price: number = 0;
+    tagList: Tag[] = [];
+    memo: string = "";
 
     constructor() {
         makeAutoObservable(this);
@@ -32,8 +35,20 @@ class Store {
         this.detailAddr = name;
     }
 
-    setShareId = (id: number) => {
-        this.shareId = id;
+    setShareId = (list: string[]) => {
+        this.shareList = list;
+    }
+
+    setPrice = (price: number) => {
+        this.price = price;
+    }
+
+    setTagList = (tagList: Tag[]) => {
+        this.tagList = tagList;
+    }
+
+    setMemo = (memo: string) => {
+        this.memo = memo;
     }
 }
 

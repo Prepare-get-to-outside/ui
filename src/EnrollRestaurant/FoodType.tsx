@@ -1,17 +1,24 @@
-import { FormControl, Grid, MenuItem, Select, SelectChangeEvent, Typography } from "@mui/material";
+import {
+  FormControl,
+  Grid,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  Typography,
+} from "@mui/material";
 import React, { FC } from "react";
-import { observer } from 'mobx-react-lite';
+import { observer } from "mobx-react-lite";
 import store from "./store/store";
 import { FOOD_TYPES } from "./store/enums";
 
 const FoodType: FC = observer(() => {
-    const { foodTypeId, setFoodTypeId } = store;
+  const { foodTypeId, setFoodTypeId } = store;
 
-    function handleChangeType(event: SelectChangeEvent) {
-        const id: string = event.target.value;
+  function handleChangeType(event: SelectChangeEvent) {
+    const id: string = event.target.value;
 
-        setFoodTypeId(Number(id));
-    }
+    setFoodTypeId(Number(id));
+  }
   return (
     <>
       <Typography variant="h6" gutterBottom>
@@ -21,8 +28,10 @@ const FoodType: FC = observer(() => {
         <Grid item xs={12}>
           <FormControl fullWidth>
             <Select value={foodTypeId.toString()} onChange={handleChangeType}>
-              {FOOD_TYPES.map((foodType) => (
-                <MenuItem value={foodType.id}>{foodType.name}</MenuItem>
+              {FOOD_TYPES.map((foodType, idx) => (
+                <MenuItem key={idx} value={foodType.id}>
+                  {foodType.name}
+                </MenuItem>
               ))}
             </Select>
           </FormControl>
