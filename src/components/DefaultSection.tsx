@@ -1,6 +1,5 @@
 import React from "react";
 import { useState } from "react";
-import type { NextPage } from "next";
 import { Layout, Menu } from "antd";
 import {
   MenuUnfoldOutlined,
@@ -53,7 +52,7 @@ const DefaultSection = ({ children }: DefaultSectionProps) => {
           {children}
         </Content>
       </Layout>
-      <style jsx>{`
+      <style>{`
         .trigger {
           padding: 0 24px;
           font-size: 18px;

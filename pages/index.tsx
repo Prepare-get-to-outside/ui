@@ -1,19 +1,19 @@
 import React from "react";
+import styled from "styled-components";
 import type { NextPage } from "next";
 import {
-  Typography,
   Form,
+  PageHeader,
   Input,
   Select,
   Switch,
-  Slider,
-  Button,
+  InputNumber,
   Tag,
+  Button,
 } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
+import { CloseOutlined, CheckOutlined } from "@ant-design/icons";
 import { useState } from "react";
 
-const { Title } = Typography;
 const { Option } = Select;
 const formItemLayout = {
   labelCol: {
@@ -23,37 +23,51 @@ const formItemLayout = {
     span: 14,
   },
 };
+const RestAmountTilde = styled.span`
+  margin: 0 1em;
+`;
 
 const Home: NextPage = () => {
   const [form] = Form.useForm();
-  const onFinish = (values: String) => {
+  const onChangeIsVisit = (checked: boolean, event: Event) => {
+    console.log(`checked: ${checked}, event: ${event}`);
+  };
+  const onFinish = (values: any) => {
     console.log("Received values of form: ", values);
   };
   const onReset = () => {
     form.resetFields();
   };
-  const [tags, setTags] = useState([]);
-  const [tagInputVisible, setTagInputVisible] = useState(false);
-  const [tagInputValue, setTagInputValue] = useState("");
-  const [editTagInputIndex, setEditTagInputIndex] = useState(-1);
-  const [editTagInputValue, seteditTagInputValue] = useState("");
+
+  const headerStates = ["process", "resolve", "reject"];
+  const defaultHeaderStateIndex = headerStates.indexOf(headerStates[0]);
+  const headerColor = ["blue", "green", "red"];
+  const headerTexts = ["작성중", "등록완료", "등록실패"];
 
   return (
     <Form
-      name="validate_other"
+      form={form}
+      name="register_restaurants"
       {...formItemLayout}
       onFinish={onFinish}
       initialValues={{
         "input-number": 0,
       }}
     >
-      <Typography>
-        <Title level={2}>맛집등록</Title>
-      </Typography>
-      <Form.Item label="이름" name="name">
+      <PageHeader
+        className="site-page-header"
+        title="맛집등록"
+        subTitle={""}
+        tags={
+          <Tag color={headerColor[defaultHeaderStateIndex]}>
+            {headerTexts[defaultHeaderStateIndex]}
+          </Tag>
+        }
+      />
+      <Form.Item label="이름" name="rest-name">
         <Input disabled={true} defaultValue="새벽 감자탕" />
       </Form.Item>
-      <Form.Item label="위치" name="location">
+      <Form.Item label="위치" name="rest-location">
         <Input
           disabled={true}
           defaultValue="서울시 강동구 성내동 올림픽로 58길"
@@ -61,7 +75,7 @@ const Home: NextPage = () => {
         <Input disabled={true} defaultValue="2층" />
       </Form.Item>
       <Form.Item
-        name="select"
+        name="rest-type"
         label="종류"
         hasFeedback
         rules={[
@@ -71,18 +85,29 @@ const Home: NextPage = () => {
           },
         ]}
       >
-        <Select defaultValue="korean">
-          <Option value="korean">한식</Option>
-          <Option value="western-food">양식</Option>
+        <Select>
+          <Option value="1">한식</Option>
+          <Option value="2">양식</Option>
+          <Option value="3">일식</Option>
+          <Option value="4">중식</Option>
+          <Option value="5">베트남</Option>
+          <Option value="6">태국</Option>
+          <Option value="7">인도</Option>
+          <Option value="8">기타</Option>
+          <Option value="9">디저트</Option>
         </Select>
       </Form.Item>
 
-      <Form.Item name="switch" label="방문여부" valuePropName="isvisit">
-        <Switch />
+      <Form.Item name="is-visit" label="방문여부">
+        <Switch
+          checkedChildren={<CheckOutlined />}
+          unCheckedChildren={<CloseOutlined />}
+          onChange={onChangeIsVisit}
+        />
       </Form.Item>
 
       <Form.Item
-        name="select-multiple"
+        name="select-shared-list"
         label="공유 목록 선택"
         rules={[
           {
@@ -98,25 +123,33 @@ const Home: NextPage = () => {
       </Form.Item>
 
       <Form.Item
-        name="slider"
+        name="rest-amount"
         label="가격대"
         rules={[{ required: true, message: "가격대를 입력해주세요" }]}
       >
-        <Slider
-          min={0}
-          max={100000}
-          step={10000}
-          marks={{
-            0: "0",
-            30000: "30,000",
-            50000: "50,000",
-            100000: "100,000",
-          }}
+        <InputNumber
+          prefix="₩"
+          defaultValue={0}
+          formatter={(value) =>
+            `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+          }
+        />
+        <RestAmountTilde>~</RestAmountTilde>
+        <InputNumber
+          prefix="₩"
+          defaultValue={0}
+          formatter={(value) =>
+            `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+          }
         />
       </Form.Item>
 
-      <Form.Item name="memo" label="메모">
+      <Form.Item name="rest-memo" label="메모">
         <Input.TextArea showCount maxLength={100} />
+      </Form.Item>
+
+      <Form.Item name="rest-tag" label="태그">
+        {/* 태그 */}
       </Form.Item>
 
       <Form.Item
