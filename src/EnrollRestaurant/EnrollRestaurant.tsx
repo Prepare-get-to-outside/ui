@@ -1,4 +1,3 @@
-import { ThemeProvider } from "@emotion/react";
 import {
   Button,
   Container,
@@ -17,6 +16,7 @@ import store from "./store/store";
 import DetailInfo from "./DetailInfo";
 import SelectShare from "./SelectShare";
 import Confirm from "./Confirm";
+import { enrollRestaurant } from "../apis/enrollRestaurant";
 
 const steps = ["기본정보", "종류", "상세정보", "공유목록 선택", "확인"];
 
@@ -39,10 +39,30 @@ function getStepContent(step: number) {
 }
 
 const EnrollRestaurant: FC = observer(() => {
-  const { activeStep, setActiveStep } = store;
+  const { activeStep, resName, price, tagList, memo, setActiveStep } = store;
+  const [resMsg, setresMsg] = useState("");
 
   const handleNext = () => {
     setActiveStep(activeStep + 1);
+  };
+
+  const handleConfirm = async () => {
+    const params: RestaurantInfo = {
+      rest_nm: resName,
+      rest_lon: 0,
+      rest_cd: 5,
+      rest_mn: price,
+      rmk_dc: memo,
+      // tag_cd: JSON.stringify(tagList),
+    };
+
+    const res: ApiResponse = await enrollRestaurant(params);
+
+    if (res && res.status === 200) {
+      setresMsg("등록 완료!");
+    } else {
+      setresMsg("Error");
+    }
   };
 
   return (
@@ -78,12 +98,14 @@ const EnrollRestaurant: FC = observer(() => {
               variant="contained"
               color="primary"
               sx={{ mt: 3, ml: 1 }}
-              onClick={handleNext}
+              onClick={handleConfirm}
             >
               완료
             </Button>
           </Box>
         )}
+
+        {resMsg && <Typography>{resMsg}</Typography>}
       </Paper>
     </Container>
   );

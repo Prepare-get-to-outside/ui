@@ -55,8 +55,8 @@ const Confirm: FC = observer(() => {
             </Grid>
             <Grid item xs={9}>
               <List>
-                {shareList.map((shareItem: string, idx: number) => (
-                  <ListItem key={idx}>
+                {shareList.map((shareItem: string, index: number) => (
+                  <ListItem key={index}>
                     {SHARE_LIST[Number(shareItem)].name}{" "}
                   </ListItem>
                 ))}
