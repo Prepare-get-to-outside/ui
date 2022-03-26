@@ -55,8 +55,10 @@ const Confirm: FC = observer(() => {
             </Grid>
             <Grid item xs={9}>
               <List>
-                {shareList.map((shareItem: string) => (
-                  <ListItem>{SHARE_LIST[Number(shareItem)].name} </ListItem>
+                {shareList.map((shareItem: string, idx: number) => (
+                  <ListItem key={idx}>
+                    {SHARE_LIST[Number(shareItem)].name}{" "}
+                  </ListItem>
                 ))}
               </List>
             </Grid>
@@ -85,7 +87,11 @@ const Confirm: FC = observer(() => {
           <Box>
             {tagList &&
               tagList.map((tag: Tag, idx: number) => (
-                <Chip label={tag.name} sx={{ ml: idx === 0 ? 0 : 1, mt: 1 }} />
+                <Chip
+                  key={idx}
+                  label={tag.name}
+                  sx={{ ml: idx === 0 ? 0 : 1, mt: 1 }}
+                />
               ))}
           </Box>
         </Grid>

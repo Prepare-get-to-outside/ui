@@ -37,17 +37,15 @@ const SelectShare: FC = observer(() => {
               value={shareList}
               onChange={handleChange}
               renderValue={(selected: string[]) => {
-                let checkedList: string[] = [];
-
-                selected.forEach((selectedItem) => {
-                    checkedList.push(SHARE_LIST[Number(selectedItem)].name)
+                let checkedList: string[] = selected.map((selectedItem) => {
+                    return SHARE_LIST[Number(selectedItem)].name
                 })
 
                 return checkedList.join(", ");
               }}
             >
               {SHARE_LIST.map((item) => (
-                <MenuItem value={item.id}>
+                <MenuItem key={item.id} value={item.id}>
                   <Checkbox checked={shareList.indexOf(item.id.toString()) > -1} />
                   <ListItemText primary={item.name}></ListItemText>
                 </MenuItem>

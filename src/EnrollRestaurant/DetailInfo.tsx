@@ -68,8 +68,9 @@ const DetailInfo: FC = observer(() => {
         <Grid item xs={12}>
           <Box>
             {tagList.length > 0 &&
-              tagList.map((tag: Tag) => 
+              tagList.map((tag: Tag, idx: number) => 
                 <Chip
+                  key={idx}
                   label={tag.name}
                   sx={{ml: 1, mt:1}}
                   onDelete={handleDeleteChip.bind(this, tag)}
